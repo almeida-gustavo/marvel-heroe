@@ -4,10 +4,12 @@ import Sequelize from 'sequelize';
 import databaseConfig from '../config/database';
 
 import User from '../api/models/User';
-
+import UserFavoriteComic from '../api/models/UserFavoriteComic';
+import UserFavoriteCharacter from '../api/models/UserFavoriteCharacter';
 
 const models = [
-  User
+  User, UserFavoriteCharacter,
+  UserFavoriteComic,
 ];
 
 class DataBase {
