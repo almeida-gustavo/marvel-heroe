@@ -1,0 +1,841 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Heroes",
+    "description": "Documentação de API desenvolvida em NodeJs"
+  },
+  "schemes": [
+    "http"
+  ],
+  "host": "localhost:3333",
+  "securityDefinitions": {
+    "Bearer": {
+      "description": "To access the API, a valid token JWT must be passed.\nIt should follow the following sintax: Bearer TOKEN",
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "basePath": "/api/v1/marvel-api",
+  "tags": [
+    {
+      "name": "Login",
+      "description": "Login Operation"
+    },
+    {
+      "name": "Users",
+      "description": "Users Operations"
+    },
+    {
+      "name": "Characters",
+      "description": "Favorite Characters Operation "
+    },
+    {
+      "name": "Comics",
+      "description": "Favorite Comics Operation "
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Loga o usuário no sistema",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "headers": {
+              "X-Authorization": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Token jwt"
+              }
+            },
+            "description": "Returns only status and token on header"
+          },
+          "401": {
+            "description": "Returns erros, indicating error on auth"
+          }
+        }
+      }
+    },
+    "/users/{userId}":{
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Returns the desired User",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of desired user",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "In case there any invalid data",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "integer"
+              },
+              "message": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "fieldName": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Returns all Users",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filter by name",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Filter by email",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page desired",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Amount of Users per page",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "totalResults": {
+                  "type": "integer"
+                },
+                "totalPages": {
+                  "type": "integer"
+                },
+                "nextPage": {
+                  "type": "integer"
+                },
+                "previousPage": {
+                  "type": "integer"
+                },
+                "showingResults": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "In case there any invalid data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "fieldName": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post":{
+        "tags":[
+          "Users"
+        ],
+        "description": "Registers a new User",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "User Information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns nothing on body"
+          }
+        }
+      },
+      "put":{
+        "tags":[
+          "Users"
+        ],
+        "description": "Updates user",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "User Information",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns nothing on body"
+          },
+          "400": {
+            "description": "In case there any invalid data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "fieldName": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401":{
+            "description": "Error on auth"
+          }
+        }
+      }
+    },
+
+
+    "/user-favorite-characters": {
+      "get": {
+        "tags": [
+          "Characters"
+        ],
+        "description": "Returns all favorite marvel characters",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page desired",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Amount of characters per page",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "characterId": {
+                        "type": "string"
+                      },
+                      "userId": {
+                        "type": "integer"
+                      },
+                      "user":{
+                        "type": "object",
+                        "properties":{
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "totalResults": {
+                  "type": "integer"
+                },
+                "totalPages": {
+                  "type": "integer"
+                },
+                "nextPage": {
+                  "type": "integer"
+                },
+                "previousPage": {
+                  "type": "integer"
+                },
+                "showingResults": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "401":{
+            "description": "Error on auth"
+          },
+          "400": {
+            "description": "In case there any invalid data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "fieldName": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-favorite-characters/{characterId}":{
+      "post":{
+        "tags":[
+          "Characters"
+        ],
+        "description": "Add marvel character to favorites",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "characterId",
+            "in": "path",
+            "description": "ID of marvel character",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns nothing on body"
+          },
+          "400": {
+            "description": "In case there any invalid data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "fieldName": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401":{
+            "description": "Error on auth"
+          }
+        }
+      },
+      "delete":{
+        "tags":[
+          "Characters"
+        ],
+        "description": "Removes marvel character from favorites",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "characterId",
+            "in": "path",
+            "description": "ID of marvel character",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns nothing on body"
+          },
+          "400": {
+            "description": "In case there any invalid data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "fieldName": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401":{
+            "description": "Error on auth"
+          }
+        }
+      }
+    },
+
+    "/user-favorite-comics": {
+      "get": {
+        "tags": [
+          "Comics"
+        ],
+        "description": "Returns all favorites comics",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page desired",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Amount of comics per page",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "comicId": {
+                        "type": "string"
+                      },
+                      "userId": {
+                        "type": "integer"
+                      },
+                      "user":{
+                        "type": "object",
+                        "properties":{
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "totalResults": {
+                  "type": "integer"
+                },
+                "totalPages": {
+                  "type": "integer"
+                },
+                "nextPage": {
+                  "type": "integer"
+                },
+                "previousPage": {
+                  "type": "integer"
+                },
+                "showingResults": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "401":{
+            "description": "Error on auth"
+          },
+          "400": {
+            "description": "In case there any invalid data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "fieldName": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-favorite-comics/{comicId}":{
+      "post":{
+        "tags":[
+          "Comics"
+        ],
+        "description": "Add marvel character to favorites",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "comicId",
+            "in": "path",
+            "description": "ID of marvel character",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns nothing on body"
+          },
+          "400": {
+            "description": "In case there any invalid data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "fieldName": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401":{
+            "description": "Error on auth"
+          }
+        }
+      },
+      "delete":{
+        "tags":[
+          "Comics"
+        ],
+        "description": "Removes marvel comic from favorites",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "comicId",
+            "in": "path",
+            "description": "ID of marvel character",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns nothing on body"
+          },
+          "400": {
+            "description": "In case there any invalid data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "fieldName": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401":{
+            "description": "Error on auth"
+          }
+        }
+      }
+    }
+  }
+}

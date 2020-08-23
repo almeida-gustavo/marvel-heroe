@@ -77,7 +77,7 @@ module.exports = () => {
     });
 
     if (!existingCharacter) {
-      errors.push(new FieldMessage('characterId', 'You already did not favored this character'));
+      errors.push(new FieldMessage('characterId', 'You did not favored this character'));
     }
 
     return errors;

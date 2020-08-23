@@ -1,8 +1,10 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const config = require('config');
-const consign = require('consign');
-const cors = require('cors');
+import express from 'express';
+import bodyParser from 'body-parser';
+import config from 'config';
+import consign from 'consign';
+import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../api/controllers/swagger.json';
 
 module.exports = () => {
   const app = express();
@@ -18,6 +20,8 @@ module.exports = () => {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     exposedHeaders: 'X-Authorization',
   }));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+  app.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
   consign({ cwd: 'api' })
     .then('models')
