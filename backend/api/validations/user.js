@@ -19,11 +19,11 @@ module.exports = () => {
     } = req.query;
 
     if (perPage && !idValid(perPage)) {
-      errors.push(new FieldMessage('per_page', 'Parametro deve ser do tipo inteiro'));
+      errors.push(new FieldMessage('per_page', 'Parameter must be integer'));
     }
 
     if (page && !idValid(page)) {
-      errors.push(new FieldMessage('page', 'Parametro deve ser do tipo inteiro'));
+      errors.push(new FieldMessage('page', 'Parameter must be integer'));
     }
 
     return errors;
@@ -36,7 +36,7 @@ module.exports = () => {
 
     const user = await User.findByPk(id);
     if (!user) {
-      errors.push(new FieldMessage('id', 'Não existe usuario com esse id'));
+      errors.push(new FieldMessage('id', 'Non existing user'));
     }
 
     return errors;
