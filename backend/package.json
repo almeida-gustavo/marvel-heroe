@@ -1,0 +1,48 @@
+{
+  "name": "marvel-api",
+  "version": "1.0.0",
+  "description": "Backend for marvel api",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server",
+    "debug": "nodemon --inspect server",
+    "lint": "eslint ./api --fix-dry-run",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/jose.henrique1/golden-backend"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://gitlab.com/jose.henrique1/golden-backend",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "config": "^3.3.1",
+    "consign": "^0.1.6",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.0.3",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.9",
+    "yup": "^0.29.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-prettier": "^3.1.0",
+    "nodemon": "^2.0.4",
+    "sequelize-cli": "^5.5.1",
+    "sucrase": "^3.14.0"
+  },
+  "engines": {
+    "node": "12.16.1",
+    "npm": "6.13.4"
+  }
+}

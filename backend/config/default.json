@@ -1,0 +1,6 @@
+{
+  "server": {
+    "port" : 3333
+  },
+  "base_url" : "/api/v1/marvel-api"
+}
