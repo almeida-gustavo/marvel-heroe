@@ -1,44 +1,40 @@
 module.exports = {
-  env: {
-    browser: true,
-    es6: true,
-  },
-  extends: [
-    'airbnb',
-    'prettier',
-    'prettier/react'
-  ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-  },
-  parser: 'babel-eslint',
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+    env: {
+        browser: true,
+        es6: true,
     },
-    ecmaVersion: 2018,
-    sourceType: 'module',
-  },
-  plugins: [
-    'react',
-    'prettier',
-    'react-hooks'
-  ],
-  rules: {
-    "prettier/prettier": "error",
-    "react/jsx-filename-extension": ["error", { extensions: [".js", ".jsx"] }],
-    "import/prefer-default-export": "off",
-    "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
-    "react/jsx-one-expression-per-line": "off",
-    "global-require": "off",
-    "react-native/no-raw-text": "off",
-    "no-param-reassign": "off",
-    "no-underscore-dangle": "off",
-    camelcase: "off",
-    "no-console": ["error", { allow: ["tron"] }],
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
-
-  },
+    extends: [
+        'plugin:react/recommended',
+        'airbnb',
+    ],
+    globals: {
+        Atomics: 'readonly',
+        SharedArrayBuffer: 'readonly',
+    },
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true,
+        },
+        ecmaVersion: 2018,
+        sourceType: 'module',
+    },
+    plugins: [
+        'react',
+    ],
+    rules: {
+        indent: ['error', 4],
+        'react/jsx-indent': ['error', 4],
+        'react/jsx-indent-props': ['error', 4],
+        'react/prop-types': [0],
+        'react/no-array-index-key': [0],
+        'react/forbid-prop-types': [0],
+        'react/no-danger': [0],
+        'react/require-default-props': [0],
+        'no-shadow': [0],
+        'jsx-a11y/label-has-for': [0],
+        'jsx-a11y/label-has-associated-control': [2, { assert: 'either' }],
+        'react/jsx-props-no-spreading': [0],
+        'react/jsx-fragments': ['error', 'element'],
+        'prefer-default-export': 'off',
+    },
 };
